@@ -20,7 +20,11 @@ glib-compile-schemas "$EXT/quicktiles@tunjayoff/schemas"
 mkdir -p "$WORK/reload"
 cp -r "$EXT/quicktiles@tunjayoff" "$WORK/reload/"
 
+if [ "${PROBE_MODE:-}" = screenshots ]; then
+    TILES="[]"
+else
 TILES="[{\"id\": \"flag\", \"title\": \"Flag\", \"icon\": \"starred-symbolic\", \"kind\": \"toggle\", \"on\": \"touch $WORK/flag\", \"off\": \"rm -f $WORK/flag\", \"status\": \"test -e $WORK/flag && echo On\"}, {\"id\": \"btn\", \"title\": \"Button\", \"icon\": \"utilities-terminal-symbolic\", \"kind\": \"button\", \"command\": \"touch $WORK/clicked\"}]"
+fi
 cat > "$WORK/config/glib-2.0/settings/keyfile" <<KEYFILE
 [org/gnome/shell]
 enabled-extensions=['quicktiles@tunjayoff', 'probe@test']
@@ -34,6 +38,7 @@ KEYFILE
 before="$(dconf dump / | sha256sum)"
 env XDG_RUNTIME_DIR="$RUNTIME" XDG_DATA_HOME="$WORK/data" XDG_CONFIG_HOME="$WORK/config" XDG_CACHE_HOME="$WORK/cache" \
     XDG_STATE_HOME="$WORK/state" SHELL_DEBUG="${SHELL_DEBUG:-}" GSETTINGS_BACKEND=keyfile PROBE_OUT="$WORK" PROBE_PREFS_CLICKS="${PROBE_PREFS_CLICKS:-}" \
+    PROBE_MODE="${PROBE_MODE:-}" PROBE_SHOTS_DIR="${PROBE_SHOTS_DIR:-}" \
     PROBE_RELOAD_DIR="$WORK/reload/quicktiles@tunjayoff" \
     dbus-run-session -- timeout 60 gnome-shell --headless --wayland --no-x11 \
     --virtual-monitor 1280x800 > "$WORK/shell.log" 2>&1 || true

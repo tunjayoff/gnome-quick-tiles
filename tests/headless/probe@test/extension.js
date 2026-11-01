@@ -317,13 +317,125 @@ async function run() {
     console.log('PROBE done');
 }
 
+// Saves the area around an actor (or a rectangle) to PROBE_SHOTS_DIR, for the README
+async function shotOf(file, rect, pad = 20) {
+    const [sw, sh] = [global.stage.width, global.stage.height];
+    const x = Math.max(0, Math.floor(rect.x - pad));
+    const y = Math.max(0, Math.floor(rect.y - pad));
+    const w = Math.min(sw - x, Math.ceil(rect.width + 2 * pad));
+    const h = Math.min(sh - y, Math.ceil(rect.height + 2 * pad));
+    const path = `${GLib.getenv('PROBE_SHOTS_DIR')}/${file}`;
+    const stream = Gio.File.new_for_path(path).replace(null, false, Gio.FileCreateFlags.NONE, null);
+    const shooter = new Shell.Screenshot();
+    await new Promise((resolve, reject) => shooter.screenshot_area(x, y, w, h, stream, (o, res) => {
+        try {
+            o.screenshot_area_finish(res);
+            resolve();
+        } catch (e) {
+            reject(e);
+        }
+    }));
+    stream.close(null);
+    console.log(`PROBE saved ${path}`);
+}
+
+function rectOf(actor) {
+    const [x, y] = actor.get_transformed_position();
+    const [width, height] = actor.get_transformed_size();
+    return {x, y, width, height};
+}
+
+const menuRect = () => rectOf(menu()._boxPointer);
+
+async function screenshots() {
+    await sleep(5000);
+    const settings = Extension.lookupByUUID(UUID).getSettings();
+    settings.set_strv('shown-builtins', ['builtin:keep-awake', 'builtin:camera-access', 'builtin:location']);
+    await sleep(500);
+    await moveTo(20, 600);
+    await moveTo(20, 600);
+
+    menu().open();
+    await sleep(1200);
+
+    const pencil = [...find('SystemItem').child].find(c => c.constructor.name === 'EditButton');
+    await click(pencil);
+    await moveTo(20, 600);
+    await sleep(600);
+    await shotOf('edit-mode.png', menuRect());
+
+    // Mid-drag: a tile follows the pointer while the others make room
+    const chromes = () => [...findActor(menu().actor, a => a.has_style_class_name?.('qt-edit-tile')).get_parent()]
+        .filter(a => a.has_style_class_name?.('qt-edit-tile'));
+    const dragged = find('DarkModeToggle');
+    const [x1, y1] = center(chromes().find(c => c.item === dragged));
+    const [x2, y2] = center(find('builtin:location'));
+    await moveTo(x1, y1);
+    await button(Clutter.ButtonState.PRESSED);
+    for (let i = 1; i <= 10; i++)
+        await moveTo(x1 + (x2 - x1) * i / 10, y1 + (y2 - y1) * i / 10);
+    // Hover between rows so the dragged tile floats over the grid in the picture
+    await moveTo(x2 + 50, y2 - 30);
+    await sleep(300);
+    await shotOf('drag.png', menuRect());
+    await button(Clutter.ButtonState.RELEASED);
+    await sleep(400);
+
+    // Mid-resize with the corner grip
+    const tile = items().find(c => c.visible && span(c) === 1 && c.get_allocation_box().x1 === 0 &&
+        c.constructor.name === 'DoNotDisturbToggle');
+    const [gx, gy] = center(chromes().find(c => c.item === tile).grip);
+    await moveTo(gx, gy);
+    await button(Clutter.ButtonState.PRESSED);
+    for (let i = 1; i <= 8; i++)
+        await moveTo(gx + tile.width * i / 8, gy);
+    await sleep(300);
+    await shotOf('resize.png', menuRect());
+    await button(Clutter.ButtonState.RELEASED);
+    await sleep(400);
+
+    // Done, so the menu shows the result
+    const done = [...byClass('qt-edit-header')].find(c => c.label === 'Done');
+    await click(done);
+    await moveTo(20, 600);
+    await sleep(600);
+    await shotOf('result.png', menuRect());
+    menu().close();
+    await sleep(500);
+
+    Main.extensionManager.openExtensionPrefs(UUID, '', {});
+    let window = null;
+    for (let i = 0; i < 40 && !window; i++) {
+        await sleep(250);
+        window = global.display.list_all_windows().find(w => w.get_title()?.includes('Quick Tiles'));
+    }
+    // Shell may still be in the overview from startup, which shows windows scaled down
+    for (let i = 0; i < 10 && Main.overview.visible; i++) {
+        Main.overview.hide();
+        await sleep(500);
+    }
+    console.log(`PROBE overview visible: ${Main.overview.visible}`);
+    // The window grows to its default size a moment after it maps; wait until it has redrawn
+    await sleep(5000);
+    const frame = window.get_frame_rect();
+    await moveTo(frame.x + 380, frame.y + 22);
+    await button(Clutter.ButtonState.PRESSED);
+    await button(Clutter.ButtonState.RELEASED);
+    await sleep(1200);
+    await shotOf('preferences.png', frame, 0);
+    window.delete(global.get_current_time());
+    await sleep(1000);
+    console.log('PROBE done');
+}
+
 export default class Probe extends Extension {
     enable() {
         // Re-enabling an extension makes Shell re-enable the ones after it too
         if (globalThis.quicktilesProbeStarted)
             return;
         globalThis.quicktilesProbeStarted = true;
-        run().catch(e => console.log(`PROBE FAIL: ${e}\n${e.stack}`));
+        const job = GLib.getenv('PROBE_MODE') === 'screenshots' ? screenshots : run;
+        job().catch(e => console.log(`PROBE FAIL: ${e}\n${e.stack}`));
     }
 
     disable() {}

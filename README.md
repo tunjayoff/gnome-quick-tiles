@@ -2,6 +2,11 @@
 
 A GNOME Shell 51 extension that lets you customize the Quick Settings menu the way you can on Android/iOS. Everything happens inside the menu itself.
 
+<p align="center">
+  <img src="docs/screenshots/edit-mode.png" width="320" alt="Edit mode inside the Quick Settings menu">
+  <img src="docs/screenshots/result.png" width="320" alt="The menu after editing">
+</p>
+
 Press the pencil button in the Quick Settings system row to enter edit mode:
 
 - Drag tiles to reorder them; the other tiles move out of the way as you drag
@@ -12,9 +17,19 @@ Press the pencil button in the Quick Settings system row to enter edit mode:
 
 This works for tiles added by other extensions too.
 
+<p align="center">
+  <img src="docs/screenshots/drag.png" width="320" alt="Dragging a tile">
+  <img src="docs/screenshots/resize.png" width="320" alt="Resizing a tile with the corner grip">
+</p>
+
 The extension also comes with a few built-in tiles: **Keep Awake**, **Screenshot**, **Screen Recording**, **Microphone**, **Camera Access**, **Location** and **Touchpad** (only shown when there is one). They start out in the **Hidden Tiles** tray, so the menu stays as it was until you drag the ones you want into it.
 
 The extension's preferences (Extensions app → Quick Tiles) hold the rest:
+
+<p align="center">
+  <img src="docs/screenshots/preferences.png" width="480" alt="Preferences window">
+</p>
+
 
 - **General:** edit button on/off, reset layout, columns, menu width
 - **Tiles:** switch built-in tiles on or off, and create custom tiles that run shell commands (a button, or a toggle with a status command)
@@ -88,6 +103,12 @@ The test drives the extension with a virtual pointer and checks:
 - that the preferences window opens
 
 Screenshots are saved next to the log.
+
+To regenerate the screenshots in `docs/screenshots`:
+
+```sh
+./tests/headless/screenshots.sh
+```
 
 ## License
 

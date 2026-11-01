@@ -54,15 +54,6 @@ class TilesPage {
         group.set_header_suffix(add);
 
         this._list = new Gtk.ListBox({selection_mode: Gtk.SelectionMode.NONE, css_classes: ['boxed-list']});
-        this._list.set_placeholder(new Gtk.Label({
-            label: 'No custom tiles yet. Press + to add one.',
-            wrap: true,
-            margin_top: 18,
-            margin_bottom: 18,
-            margin_start: 18,
-            margin_end: 18,
-            css_classes: ['dim-label'],
-        }));
         group.add(this._list);
         this.page.add(group);
 
@@ -128,7 +119,15 @@ class TilesPage {
 
     _rebuild() {
         this._list.remove_all();
-        this._tiles().forEach((tile, index) => {
+        const tiles = this._tiles();
+        if (!tiles.length) {
+            this._list.append(new Adw.ActionRow({
+                title: 'No custom tiles yet',
+                subtitle: 'Press + to add one.',
+                activatable: false,
+            }));
+        }
+        tiles.forEach((tile, index) => {
             const summary = tile.kind === 'toggle' ? `Toggle · ${tile.on ?? ''}` : `Button · ${tile.command ?? ''}`;
             const row = new Adw.ActionRow({
                 title: tile.title || tile.id,
