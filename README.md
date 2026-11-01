@@ -56,7 +56,7 @@ cd gnome-quick-tiles
 
 The extension is installed to `~/.local/share/gnome-shell/extensions/quicktiles@tunjayoff`. On Wayland, Shell only picks up a newly installed extension at the next login. To skip the login, `install.sh` prints a line to paste into Looking Glass (Alt+F2 → `lg`). The same line also reloads the extension after you change the code.
 
-It loads from a fresh copy in `~/.cache/quicktiles-dev`, because Shell caches extension modules by path. After the next login, Shell uses the normal install location again.
+It loads from a fresh copy in `$XDG_RUNTIME_DIR/quicktiles-dev`, because Shell caches extension modules by path. These copies are removed when you log out. After the next login, Shell uses the normal install location again.
 
 To build the zip for extensions.gnome.org:
 
