@@ -1,0 +1,6 @@
+{
+  "uuid": "probe@test",
+  "name": "quicktiles test probe",
+  "description": "Only used by tests/headless/run.sh.",
+  "shell-version": ["51"]
+}

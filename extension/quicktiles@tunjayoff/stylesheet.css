@@ -1,0 +1,123 @@
+/* Edit mode inside the Quick Settings menu */
+
+.qt-edit-header {
+    spacing: 6px;
+    padding: 0 2px 12px 2px;
+}
+
+.qt-edit-title {
+    font-weight: bold;
+}
+
+.qt-columns-label {
+    font-feature-settings: "tnum";
+    min-width: 5em;
+    text-align: center;
+}
+
+.qt-header-button {
+    padding: 6px;
+    border-radius: 99px;
+}
+
+.qt-done-button {
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-weight: bold;
+    background-color: -st-accent-color;
+    color: -st-accent-fg-color;
+}
+
+.qt-edit-tile {
+    border-radius: 18px;
+}
+
+.qt-edit-tile.qt-resizing {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.qt-badge-remove {
+    width: 20px;
+    height: 20px;
+    border-radius: 99px;
+    background-color: #c01c28;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.qt-badge-remove:hover {
+    background-color: #e01b24;
+}
+
+.qt-badge-icon {
+    icon-size: 12px;
+}
+
+.qt-resize-grip {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.qt-resize-grip:hover,
+.qt-resizing .qt-resize-grip {
+    color: -st-accent-color;
+}
+
+.qt-span-label {
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 9pt;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+}
+
+.qt-drop-marker {
+    width: 4px;
+    border-radius: 2px;
+    background-color: -st-accent-color;
+}
+
+.qt-tray {
+    spacing: 6px;
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 18px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.qt-tray:drop {
+    border-color: #e01b24;
+    background-color: rgba(224, 27, 36, 0.15);
+}
+
+.qt-tray-title {
+    font-weight: bold;
+}
+
+.qt-tray-hint {
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.qt-tray-scroll {
+    max-height: 220px;
+}
+
+.qt-tray-chip {
+    padding: 6px 8px 6px 10px;
+    border-radius: 99px;
+    font-size: 10pt;
+}
+
+.qt-tray-chip-box {
+    spacing: 6px;
+}
+
+.qt-tray-chip-icon {
+    icon-size: 16px;
+}
+
+.qt-tray-chip-add {
+    icon-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}

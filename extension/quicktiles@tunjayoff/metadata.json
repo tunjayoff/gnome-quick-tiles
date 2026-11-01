@@ -1,0 +1,9 @@
+{
+  "uuid": "quicktiles@tunjayoff",
+  "name": "Quick Tiles",
+  "description": "Edit Quick Settings like on Android/iOS: press the pencil button to drag tiles around, hide them, change their width and the column count. Also adds custom tiles that run commands.",
+  "shell-version": ["51"],
+  "url": "https://github.com/tunjayoff/gnome-quick-tiles",
+  "settings-schema": "org.gnome.shell.extensions.quicktiles",
+  "version": 1
+}

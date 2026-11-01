@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.quicktiles" path="/org/gnome/shell/extensions/quicktiles/">
+    <key name="order" type="as">
+      <default>[]</default>
+      <summary>Tile order</summary>
+      <description>Tile IDs in display order. Tiles not listed are appended in their natural order.</description>
+    </key>
+    <key name="hidden" type="as">
+      <default>[]</default>
+      <summary>Hidden tiles</summary>
+    </key>
+    <key name="shown-builtins" type="as">
+      <default>[]</default>
+      <summary>Built-in tiles shown in the menu</summary>
+      <description>Built-in tiles start out in the Hidden Tiles tray; these are the ones the user added.</description>
+    </key>
+    <key name="spans" type="a{si}">
+      <default>{}</default>
+      <summary>Tile widths</summary>
+      <description>Tile ID → number of columns it spans. 0 = full width. Unlisted tiles use their default width.</description>
+    </key>
+    <key name="columns" type="i">
+      <range min="1" max="6"/>
+      <default>2</default>
+      <summary>Number of columns</summary>
+    </key>
+    <key name="menu-width" type="i">
+      <range min="0" max="2000"/>
+      <default>0</default>
+      <summary>Menu width (pixels, 0 = automatic)</summary>
+    </key>
+    <key name="show-edit-button" type="b">
+      <default>true</default>
+      <summary>Show the edit (pencil) button in the system row</summary>
+    </key>
+    <key name="custom-tiles" type="s">
+      <default>'[]'</default>
+      <summary>Custom command tiles</summary>
+      <description>JSON array of {"id", "title", "subtitle", "icon", "kind" ("button" or "toggle"), "command", "on", "off", "status", "interval"}.</description>
+    </key>
+  </schema>
+</schemalist>
