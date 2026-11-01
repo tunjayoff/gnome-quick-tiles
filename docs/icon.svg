@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4655"/>
+      <stop offset="1" stop-color="#2b2735"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#62a0ea"/>
+      <stop offset="1" stop-color="#3584e4"/>
+    </linearGradient>
+    <linearGradient id="lifted" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#99c1f1"/>
+      <stop offset="1" stop-color="#3584e4"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base with a darker bottom edge, GNOME app icon style -->
+  <rect x="10" y="14" width="108" height="104" rx="24" fill="#1e1a26"/>
+  <rect x="10" y="10" width="108" height="104" rx="24" fill="url(#base)"/>
+  <rect x="10.5" y="10.5" width="107" height="103" rx="23.5" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+
+  <!-- Tiles -->
+  <rect x="22" y="24" width="40" height="18" rx="9" fill="url(#accent)"/>
+  <circle cx="32" cy="33" r="4" fill="#ffffff"/>
+  <rect x="66" y="24" width="40" height="18" rx="9" fill="#5e5c64"/>
+  <circle cx="76" cy="33" r="4" fill="#deddda"/>
+
+  <!-- Slider -->
+  <rect x="22" y="48" width="84" height="18" rx="9" fill="#3d3846"/>
+  <rect x="30" y="56" width="68" height="3" rx="1.5" fill="#77767b"/>
+  <rect x="30" y="56" width="40" height="3" rx="1.5" fill="#62a0ea"/>
+  <circle cx="70" cy="57.5" r="5" fill="#ffffff"/>
+
+  <!-- Empty slot left by the dragged tile -->
+  <rect x="23" y="73" width="38" height="16" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="4 3"/>
+  <rect x="66" y="72" width="40" height="18" rx="9" fill="#5e5c64"/>
+  <circle cx="76" cy="81" r="4" fill="#deddda"/>
+
+  <!-- Lifted tile being dragged, with the corner resize arc -->
+  <g transform="rotate(-8 50 96)" filter="url(#shadow)">
+    <rect x="28" y="86" width="48" height="20" rx="10" fill="url(#lifted)"/>
+    <circle cx="39" cy="96" r="4.5" fill="#ffffff"/>
+    <rect x="48" y="94" width="18" height="4" rx="2" fill="#ffffff" fill-opacity="0.85"/>
+    <path d="M 78.07 99.24 A 12.5 12.5 0 0 1 69.24 108.07" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+</svg>

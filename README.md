@@ -1,4 +1,8 @@
-# Quick Tiles
+<p align="center">
+  <img src="docs/icon.svg" width="128" alt="Quick Tiles icon">
+</p>
+
+<h1 align="center">Quick Tiles</h1>
 
 A GNOME Shell 51 extension that lets you customize the Quick Settings menu the way you can on Android/iOS. Everything happens inside the menu itself.
 
